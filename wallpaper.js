@@ -22,7 +22,7 @@ function draw(){
 	const offsetIncrement = width/20 + (width/10) * Math.random();
 	const sat = 10 + ( 30 * Math.random() );
 	const light = 15 + ( 45 * Math.random() );
-	const lightIncrement = 5 - ( 10 * Math.random() );
+	const lightIncrement = ( Math.random() < 0.5 ) ? ( 2 + ( 4 * Math.random() ) ) : -( 2 + ( 4 * Math.random() ) );
 
 	// background
 	ctx.fillStyle = 'hsl( ' + hueStart + ', ' + sat + '%, ' + light + '% )';
@@ -32,11 +32,11 @@ function draw(){
 	for( let l=0; l<layers; l++ ){
 		let h = hueStart + ( (l+1) * hueIncrement );
 		let s = sat;
-		let v = light + ( l * lightIncrement );
+		let v = light + ( (l+1) * lightIncrement );
 		ctx.fillStyle = 'hsl( ' + h + ', ' + s + '%, ' + v + '% )';
 		ctx.beginPath();
 		let layerOffset = offset + ( offsetIncrement * l );
-		let offsetY = -ampl + ( (l+1) * ( height / layers ) );
+		let offsetY = ( (l+0.5) * ( height / layers ) );
 		let startY = offsetY + ( ampl * Math.sin( layerOffset / wl ) );
 		ctx.moveTo( 0, startY );
 		for( let i=0; i<=( segments + 1 ); i++ ){
