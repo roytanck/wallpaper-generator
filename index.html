@@ -3,6 +3,7 @@
 	<head>
 		<title>Wallpaper</title>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<style>
 			:root {
 				font-size:  16px;
@@ -11,6 +12,8 @@
 				padding: 0;
 				margin: 0;
 				background-color: #333;
+				color: #ccc;
+				font-family: sans-serif;
 			}
 			#container {
 				margin:  0;
@@ -20,12 +23,16 @@
 				max-width: 100%;
 				height: auto !important;
 			}
+			p {
+				font-size:  0.75rem;
+			}
 		</style>
 		<script src="wallpaper.js"></script>
 	</head>
 	<body>
 		<div id="container">
 			<canvas width="3840" height="2160"></canvas>
+			<p>Right-click the image to save as a PNG image.</p>
 		</div>
 	</body>
 </html>
