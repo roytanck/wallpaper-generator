@@ -7,7 +7,7 @@ function draw(){
 	const height = 1080*2;
 
 	// line segments (either few, or fluent lines (200))
-	let segments = 1 + Math.floor( 7 * Math.random() );
+	let segments = 1 + Math.floor( 9 * Math.random() );
 	if( Math.random() < 0.5 ){
 		segments = 200;
 	}
