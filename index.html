@@ -3,29 +3,28 @@
 <head>
 	<title>Wallpaper</title>
 	<style>
+		:root {
+			font-size:  16px;
+		}
 		body {
 			padding: 0;
 			margin: 0;
 			background-color: #333;
 		}
 		#container {
-			display: flex;
-			width: 100%;
-			height: 100%;
-			align-items: center;
-			justify-content: center;
+			margin:  0;
+			padding: 2rem;
 		}
-		/*#wallpaper {
-			scale: 25%;
-		}*/
+		canvas {
+			max-width: 100%;
+			height: auto !important;
+		}
 	</style>
 	<script src="wallpaper.js"></script>
 </head>
 <body>
 	<div id="container">
-		<div id="wallpaper">
-			<canvas width="3840" height="2160"></canvas>
-		</div>
+		<canvas width="3840" height="2160"></canvas>
 	</div>
 </body>
 </html>
