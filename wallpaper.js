@@ -7,7 +7,7 @@ function draw(){
 	const height = 1080*2;
 
 	// line segments (either few, or fluent lines (200))
-	let segments = 1 + ( 7 * Math.random() );
+	let segments = 1 + Math.floor( 7 * Math.random() );
 	if( Math.random() < 0.5 ){
 		segments = 200;
 	}
@@ -39,7 +39,7 @@ function draw(){
 		let offsetY = ( (l+0.5) * ( height / layers ) );
 		let startY = offsetY + ( ampl * Math.sin( layerOffset / wl ) );
 		ctx.moveTo( 0, startY );
-		for( let i=0; i<=( segments + 1 ); i++ ){
+		for( let i=0; i<=segments; i++ ){
 			let x = i * ( width / segments );
 			ctx.lineTo( x , startY + ( ampl * Math.sin( ( layerOffset + x ) / wl ) ) );
 		}
