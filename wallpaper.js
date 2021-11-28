@@ -15,7 +15,7 @@ function draw(){
 	// other random values
 	const layers = 3 + Math.floor( 10 * Math.random() );
 	const hueStart = 360 * Math.random();
-	const hueIncrement = 0 + ( 10 * Math.random() );
+	const hueIncrement = 20 - ( 40 * Math.random() );
 	const wl = width / ( 5 + ( 10 * Math.random() ) );
 	const ampl = ( 0.1 * wl ) + ( 0.9 * wl ) * Math.random();
 	const offset = width * Math.random();
