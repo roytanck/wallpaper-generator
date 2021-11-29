@@ -3,17 +3,17 @@ document.addEventListener('DOMContentLoaded', draw, false);
 // Keeping the keys in a specific order to avoid issues when encoding/decoding
 // the data.
 const keysReference = [
-  "ampl",
-  "hueIncrement",
-  "hueStart",
-  "layers",
-  "light",
-  "lightIncrement",
-  "offset",
-  "offsetIncrement",
-  "sat",
-  "segments",
-  "wl"
+	"ampl",
+	"hueIncrement",
+	"hueStart",
+	"layers",
+	"light",
+	"lightIncrement",
+	"offset",
+	"offsetIncrement",
+	"sat",
+	"segments",
+	"wl"
 ]
 
 /**
@@ -106,23 +106,23 @@ function draw(){
 
 	const values = getDataFromUrl() ?? generateValues( width );
 	const {
-		segments, 
-		layers, 
-		hueStart, 
-		hueIncrement, 
-		wl, 
-		ampl, 
-		offset, 
-		offsetIncrement, 
-		sat, 
-		light, 
+		segments,
+		layers,
+		hueStart,
+		hueIncrement,
+		wl,
+		ampl,
+		offset,
+		offsetIncrement,
+		sat,
+		light,
 		lightIncrement
 	} = values;
 
 	// background
 	ctx.fillStyle = 'hsl( ' + hueStart + ', ' + sat + '%, ' + light + '% )';
 	ctx.fillRect( 0, 0, width, height );
-	
+
 	// draw the layers
 	for( let l=0; l<layers; l++ ){
 		let h = hueStart + ( (l+1) * hueIncrement );
