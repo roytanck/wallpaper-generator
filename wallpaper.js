@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	gui.add(settings, 'wl').min(1).max(settings.width).step(1).onChange(draw)
 	gui.add(settings, 'layers').min(2).max(20).step(1).onChange(draw)
 	gui.add(settings, 'segments').min(1).max(200).step(1).onChange(draw)
+	gui.add(settings, 'ampl').min(0).max(5000).step(1).onChange(draw)
 	gui.add(settings, 'offset').min(0).max(settings.width).step(1).onChange(draw)
 	gui.add(settings, 'offsetIncrement').min(0).max(settings.width).step(1).onChange(draw)
 
