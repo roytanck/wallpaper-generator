@@ -1,10 +1,12 @@
 document.addEventListener('DOMContentLoaded', draw, false);
 
 function draw(){
-	const canvas = document.querySelector('canvas');
+	const canvas = document.createElement('canvas');
 	const ctx = canvas.getContext('2d');
 	const width = 1920*2;
 	const height = 1080*2;
+	canvas.height = height;
+	canvas.width = width;
 
 	// line segments (either few, or fluent lines (200))
 	let segments = 1 + Math.floor( 9 * Math.random() );
@@ -48,5 +50,10 @@ function draw(){
 		ctx.lineTo( 0, startY );
 		ctx.fill();
 	}
-
+	const pngURL = canvas.toDataURL();
+	const container = document.querySelector("#container");
+	const img = document.createElement("img");
+	img.src = pngURL;
+	img.id = "result";
+	container.appendChild(img);
 }
