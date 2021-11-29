@@ -31,7 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	//
 	gui.add(settings, 'wl').min(1).max(settings.width).step(1).onChange(draw)
 	gui.add(settings, 'layers').min(2).max(20).step(1).onChange(draw)
-	gui.add(settings, 'segments').min(1).max(200).step(1).onChange(draw)
+	gui.add(settings, 'segments').min(1).max(10).step(1).onChange(draw);
+	settings.smooth = settings.smooth || false
+	gui.add(settings, 'smooth').onChange(draw);
 	gui.add(settings, 'ampl').min(0).max(5000).step(1).onChange(draw)
 	gui.add(settings, 'offset').min(0).max(settings.width).step(1).onChange(draw)
 	gui.add(settings, 'offsetIncrement').min(0).max(settings.width).step(1).onChange(draw)
@@ -112,17 +114,12 @@ function getDataFromUrl(){
 }
 
 function generateValues( width ){
-	// line segments (either few, or fluent lines (200))
-	let segments = 1 + Math.floor( 9 * Math.random() );
-	if( Math.random() < 0.5 ){
-		segments = 200;
-	}
-
 	const wl = width / ( 5 + ( 10 * Math.random() ) );
 
 	// other random values
 	return {
-		segments,
+		segments: 1 + Math.floor( 9 * Math.random() ),
+		smooth: Math.random() < 0.5,
 		wl,
 		layers: 3 + Math.floor( 10 * Math.random() ),
 		hueStart: 360 * Math.random(),
@@ -164,7 +161,8 @@ function draw(){
 		offsetIncrement,
 		sat,
 		light,
-		lightIncrement
+		lightIncrement,
+		smooth,
 	} = settings;
 
 	canvas.width = width;
@@ -185,8 +183,9 @@ function draw(){
 		let offsetY = ( (l+0.5) * ( height / layers ) );
 		let startY = offsetY + ( ampl * Math.sin( layerOffset / wl ) );
 		ctx.moveTo( 0, startY );
-		for( let i=0; i<=segments; i++ ){
-			let x = i * ( width / segments );
+		const segmentsOrSmooth = smooth ? 200 : segments;
+		for( let i=0; i<=segmentsOrSmooth; i++ ){
+			let x = i * ( width / segmentsOrSmooth );
 			ctx.lineTo( x , startY + ( ampl * Math.sin( ( layerOffset + x ) / wl ) ) );
 		}
 		ctx.lineTo( width, height );
