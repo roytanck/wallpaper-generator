@@ -21,30 +21,30 @@ const keysReference = [
  * parameters, sort the keys based on "keysReference" to make sure the encoding
  * and decoding step are consistent, join the values and encode it in base64.
  */
-function encodeValues(values){
-	const joinedValues = keysReference.reduce((str, key, index) =>
-		str + values[key] + (index < keysReference.length - 1 ? ',' : '')
-	, '')
-	return window.btoa(joinedValues)
+function encodeValues( values ){
+	const joinedValues = keysReference.reduce( ( str, key, index ) =>
+		str + values[ key ] + ( index < keysReference.length - 1 ? ',' : '' )
+	, '');
+	return window.btoa( joinedValues );
 }
 
 /**
  * Parses an base64 encoded string to get all the variables for a wallpaper.
  * See "encodeValues" for the content.
  */
-function getValuesFromBase64(encoded){
-	const data = window.atob(encoded)
+function getValuesFromBase64( encoded ){
+	const data = window.atob(encoded);
 	// Quick validation for malformed "share" query parameter
-	if(data.match(/,/g).length !== 10){
-		return null
+	if( data.match( /,/g ).length !== 10 ){
+		return null;
 	}
 	// Should have sorted keys based on "keysReference"
-	const values = data.split(',')
-	const mappedValues = keysReference.reduce((obj, key, index) => ({
+	const values = data.split( ',' );
+	const mappedValues = keysReference.reduce( ( obj, key, index ) => ({
 		...obj,
-		[key]: Number(values[index])
+		[ key ]: Number( values[ index ] )
 	}), {})
-	return mappedValues
+	return mappedValues;
 }
 
 /**
@@ -53,23 +53,23 @@ function getValuesFromBase64(encoded){
  * Otherwise, it will return null
  */
 function getDataFromUrl(){
-	const params = new URLSearchParams(window.location.search)
+	const params = new URLSearchParams( window.location.search );
 	// Set from the "share" link, in "setLinks" function
-	const share = params.get('share')
-	if(!share){
-		return null
+	const share = params.get( 'share' );
+	if( !share ){
+		return null;
 	}
-	return getValuesFromBase64(share)
+	return getValuesFromBase64( share );
 }
 
-function generateValues(width){
+function generateValues( width ){
 	// line segments (either few, or fluent lines (200))
 	let segments = 1 + Math.floor( 9 * Math.random() );
 	if( Math.random() < 0.5 ){
 		segments = 200;
 	}
 
-	const wl = width / ( 5 + ( 10 * Math.random() ) )
+	const wl = width / ( 5 + ( 10 * Math.random() ) );
 
 	// other random values
 	return {
@@ -87,15 +87,15 @@ function generateValues(width){
 	};
 }
 
-function setLinks(imageData, encodedValues){
+function setLinks( imageData, encodedValues ){
 	// Allows to download the image, whatever the device
-	const dlLink = document.querySelector('a#download')
-	dlLink.href = imageData
+	const dlLink = document.querySelector( 'a#download' );
+	dlLink.href = imageData;
 
 	// Allows to share a given wallpaper, generating the exact same one
 	// We could push the query parameter automatically with "window.history.pushState"
-	const shareLink = document.querySelector('a#share')
-	shareLink.href = "?share=" + encodedValues
+	const shareLink = document.querySelector( 'a#share' );
+	shareLink.href = "?share=" + encodedValues;
 }
 
 function draw(){
@@ -104,7 +104,7 @@ function draw(){
 	const width = 1920*2;
 	const height = 1080*2;
 
-	const values = getDataFromUrl() ?? generateValues(width)
+	const values = getDataFromUrl() ?? generateValues( width );
 	const {
 		segments, 
 		layers, 
@@ -117,7 +117,7 @@ function draw(){
 		sat, 
 		light, 
 		lightIncrement
-	} = values
+	} = values;
 
 	// background
 	ctx.fillStyle = 'hsl( ' + hueStart + ', ' + sat + '%, ' + light + '% )';
@@ -144,5 +144,5 @@ function draw(){
 		ctx.fill();
 	}
 
-	setLinks(canvas.toDataURL(), encodeValues(values))
+	setLinks( canvas.toDataURL(), encodeValues(values) );
 }
