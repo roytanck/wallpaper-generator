@@ -1,4 +1,43 @@
-document.addEventListener('DOMContentLoaded', draw, false);
+let settings = {
+	width: 1920*2,
+	height: 1080*2,
+}
+
+/**
+ * Load and Initialize
+ */
+document.addEventListener('DOMContentLoaded', () => {
+
+	settings = getDataFromUrl() ?? {...settings, ...generateValues( settings.width )}
+
+	const gui = new dat.GUI()
+	// Dimensions
+	gui.add(settings, 'width').min(128).max(7680).step(1).onChange(draw)
+	gui.add(settings, 'height').min(128).max(7680).step(1).onChange(draw)
+	// Colors
+	settings.color = {
+		h: settings.hueStart,
+		s: settings.sat / 30,
+		v: settings.light / 45,
+	}
+	gui.addColor(settings, 'color').onChange((color) => {
+		settings.hueStart = color.h
+		settings.sat = color.s * 30
+		settings.light = color.v * 45
+		draw()
+	})
+	gui.add(settings, 'hueIncrement').min(-40).max(40).step(1).onChange(draw)
+	gui.add(settings, 'lightIncrement').min(-6).max(6).step(.1).onChange(draw)
+	//
+	gui.add(settings, 'wl').min(1).max(settings.width).step(1).onChange(draw)
+	gui.add(settings, 'layers').min(2).max(20).step(1).onChange(draw)
+	gui.add(settings, 'segments').min(1).max(200).step(1).onChange(draw)
+	gui.add(settings, 'offset').min(0).max(settings.width).step(1).onChange(draw)
+	gui.add(settings, 'offsetIncrement').min(0).max(settings.width).step(1).onChange(draw)
+
+	draw()
+
+}, false);
 
 // Keeping the keys in a specific order to avoid issues when encoding/decoding
 // the data.
@@ -13,7 +52,9 @@ const keysReference = [
 	"offsetIncrement",
 	"sat",
 	"segments",
-	"wl"
+	"wl",
+	"width",
+	"height",
 ]
 
 /**
@@ -35,7 +76,12 @@ function encodeValues( values ){
 function getValuesFromBase64( encoded ){
 	const data = window.atob(encoded);
 	// Quick validation for malformed "share" query parameter
-	if( data.match( /,/g ).length !== 10 ){
+	if(
+		// with width and height
+		data.match( /,/g ).length !== 12
+		// without
+		|| data.match( /,/g ).length === 10
+	){
 		return null;
 	}
 	// Should have sorted keys based on "keysReference"
@@ -44,6 +90,8 @@ function getValuesFromBase64( encoded ){
 		...obj,
 		[ key ]: Number( values[ index ] )
 	}), {})
+	mappedValues.width = mappedValues.width || settings.width;
+	mappedValues.height = mappedValues.height || settings.height;
 	return mappedValues;
 }
 
@@ -101,11 +149,10 @@ function setLinks( imageData, encodedValues ){
 function draw(){
 	const canvas = document.querySelector('canvas');
 	const ctx = canvas.getContext('2d');
-	const width = 1920*2;
-	const height = 1080*2;
 
-	const values = getDataFromUrl() ?? generateValues( width );
 	const {
+		width,
+		height,
 		segments,
 		layers,
 		hueStart,
@@ -117,7 +164,10 @@ function draw(){
 		sat,
 		light,
 		lightIncrement
-	} = values;
+	} = settings;
+
+	canvas.width = width;
+	canvas.height = height;
 
 	// background
 	ctx.fillStyle = 'hsl( ' + hueStart + ', ' + sat + '%, ' + light + '% )';
@@ -144,5 +194,5 @@ function draw(){
 		ctx.fill();
 	}
 
-	setLinks( canvas.toDataURL(), encodeValues(values) );
+	setLinks( canvas.toDataURL(), encodeValues(settings) );
 }
