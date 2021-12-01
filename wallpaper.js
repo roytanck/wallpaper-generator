@@ -1,20 +1,20 @@
-document.addEventListener('DOMContentLoaded', draw, false);
+document.addEventListener( 'DOMContentLoaded', draw, false );
 
 // Keeping the keys in a specific order to avoid issues when encoding/decoding
 // the data.
 const keysReference = [
-  "ampl",
-  "hueIncrement",
-  "hueStart",
-  "layers",
-  "light",
-  "lightIncrement",
-  "offset",
-  "offsetIncrement",
-  "sat",
-  "segments",
-  "wl"
-]
+	"ampl",
+	"hueIncrement",
+	"hueStart",
+	"layers",
+	"light",
+	"lightIncrement",
+	"offset",
+	"offsetIncrement",
+	"sat",
+	"segments",
+	"wl"
+];
 
 /**
  * Encodes the generated values to Base64 to be sharable. It takes an object in
@@ -33,9 +33,9 @@ function encodeValues( values ){
  * See "encodeValues" for the content.
  */
 function getValuesFromBase64( encoded ){
-	const data = window.atob(encoded);
+	const data = window.atob( encoded );
 	// Quick validation for malformed "share" query parameter
-	if( data.match( /,/g ).length !== 10 ){
+	if( data.match(/,/g).length !== 10 ){
 		return null;
 	}
 	// Should have sorted keys based on "keysReference"
@@ -43,7 +43,7 @@ function getValuesFromBase64( encoded ){
 	const mappedValues = keysReference.reduce( ( obj, key, index ) => ({
 		...obj,
 		[ key ]: Number( values[ index ] )
-	}), {})
+	}), {});
 	return mappedValues;
 }
 
@@ -99,23 +99,23 @@ function setLinks( imageData, encodedValues ){
 }
 
 function draw(){
-	const canvas = document.querySelector('canvas');
-	const ctx = canvas.getContext('2d');
-	const width = 1920*2;
-	const height = 1080*2;
+	const canvas = document.querySelector( 'canvas' );
+	const ctx = canvas.getContext( '2d' );
+	const width = 3840;
+	const height = 2160;
 
 	const values = getDataFromUrl() ?? generateValues( width );
 	const {
-		segments, 
-		layers, 
-		hueStart, 
-		hueIncrement, 
-		wl, 
-		ampl, 
-		offset, 
-		offsetIncrement, 
-		sat, 
-		light, 
+		segments,
+		layers,
+		hueStart,
+		hueIncrement,
+		wl,
+		ampl,
+		offset,
+		offsetIncrement,
+		sat,
+		light,
 		lightIncrement
 	} = values;
 
