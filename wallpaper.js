@@ -64,26 +64,36 @@ function getDataFromUrl(){
 
 function generateValues( width ){
 	// line segments (either few, or fluent lines (200))
-	let segments = 1 + Math.floor( 9 * Math.random() );
-	if( Math.random() < 0.5 ){
-		segments = 200;
-	}
-
+	const segments = ( Math.random() < 0.5 ) ? 1 + Math.floor( 9 * Math.random() ) : 200;
+	// wavelength
 	const wl = width / ( 5 + ( 10 * Math.random() ) );
+	// number of layers
+	const layers = 3 + Math.floor( 10 * Math.random() );
+	// lightness
+	const light = 15 + ( 45 * Math.random() );
+	// calculate light increment based on available 'space' between 'light and either 0 or 100
+	let LightIncrement = 0;
+	if( Math.random() < 0.5 ){
+		let maxLightIncrement = ( ( 100 - light ) / layers );
+		lightIncrement = ( 0.33 * maxLightIncrement ) + Math.random( 0.67 * maxLightIncrement );
+	} else {
+		let maxLightIncrement = light / layers;
+		lightIncrement = -( ( 0.33 * maxLightIncrement ) + Math.random( 0.67 * maxLightIncrement ) );
+	}
 
 	// other random values
 	return {
 		segments,
 		wl,
-		layers: 3 + Math.floor( 10 * Math.random() ),
+		layers,
 		hueStart: 360 * Math.random(),
-		hueIncrement: 20 - ( 40 * Math.random() ),
+		hueIncrement: 20 - ( 40 * ( Math.random() ) ),
 		ampl: ( 0.1 * wl ) + ( 0.9 * wl ) * Math.random(),
 		offset: width * Math.random(),
 		offsetIncrement: width/20 + (width/10) * Math.random(),
 		sat: 10 + ( 30 * Math.random() ),
-		light: 15 + ( 45 * Math.random() ),
-		lightIncrement: ( Math.random() < 0.5 ) ? ( 2 + ( 4 * Math.random() ) ) : -( 2 + ( 4 * Math.random() ) )
+		light,
+		lightIncrement: lightIncrement
 	};
 }
 
@@ -91,7 +101,6 @@ function setLinks( imageData, encodedValues ){
 	// Allows to download the image, whatever the device
 	const dlLink = document.querySelector( 'a#download' );
 	dlLink.href = imageData;
-
 	// Allows to share a given wallpaper, generating the exact same one
 	// We could push the query parameter automatically with "window.history.pushState"
 	const shareLink = document.querySelector( 'a#share' );
@@ -105,6 +114,7 @@ function draw(){
 	const height = 2160;
 
 	const values = getDataFromUrl() ?? generateValues( width );
+	console.log( values );
 	const {
 		segments,
 		layers,
