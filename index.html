@@ -2,54 +2,22 @@
 <html lang="en">
 	<head>
 		<title>4K Desktop wallpaper generator</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" type="image/png" href="favicon.png"/>
-		<style>
-			body {
-				padding: 0;
-				margin: 0;
-				background-color: #333;
-				color: #ccc;
-				font-family: sans-serif;
-			}
-			#container {
-				margin: 0;
-				padding: 2rem;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-			}
-			canvas {
-				max-width: 100%;
-				height: auto !important;
-			}
-			p, a {
-				font-size: 1rem;
-				color: #ccc;
-				text-align: center;
-			}
-
-			@media (min-width: 1280px) {
-				canvas {
-					max-width: 80vw;
-				}
-			}
-		</style>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="shortcut icon" type="image/png" href="favicon.png" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
 		<script src="wallpaper.js"></script>
 	</head>
 	<body>
 		<div id="container">
 			<canvas width="3840" height="2160"></canvas>
-			<p>
+			<p id="links">
 				<!-- Empty links are set in JS -->
-				<a download="wallpaper.png" href="" id="download">Save this wallpaper</a>
-				<span>|</span>
-				<a href="" id="share">Grab the link to share it</a>
-				<span>|</span>
-				<a href="https://tanck.nl/wallpaper" id="new">Generate a new wallpaper</a>
+				<a download="wallpaper.png" href="" id="download">Save</a>
+				<a href="" id="share">Share link</a>
+				<a href="https://tanck.nl/wallpaper" id="new">Refresh</a>
 			</p>
+			<p id="credits">&copy; <a href="https://roytanck.com">Roy Tanck</a></p>
 		</div>
 	</body>
 </html>
