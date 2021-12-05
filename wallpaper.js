@@ -45,10 +45,12 @@ function generateValues( width ){
  * Draw the wallpaper onto the canvas, using values from the URL or a fresh set.
  */
 function draw(){
+	// Getting the size of the device screen to generate a wallpaper accordingly
+	const { width, height } = window.screen;
 	const canvas = document.querySelector( 'canvas' );
+	canvas.width = width;
+	canvas.height = height;
 	const ctx = canvas.getContext( '2d' );
-	const width = 3840;
-	const height = 2160;
 
 	const values = getDataFromUrl() ?? generateValues( width );
 	const {
