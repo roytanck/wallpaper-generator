@@ -34,10 +34,10 @@ function generateValues( width ){
 		hueIncrement: 20 - ( 40 * ( Math.random() ) ),
 		ampl: ( 0.1 * wl ) + ( 0.9 * wl ) * Math.random(),
 		offset: width * Math.random(),
-		offsetIncrement: width/20 + (width/10) * Math.random(),
+		offsetIncrement: width / 20 + ( width / 10 ) * Math.random(),
 		sat: 10 + ( 30 * Math.random() ),
 		light: 15 + ( 45 * Math.random() ),
-		lightIncrement: ( Math.random() < 0.5 ) ? ( 2 + ( 4 * Math.random() ) ) : -( 2 + ( 4 * Math.random() ) )
+		lightIncrement: ( Math.random() < 0.5 ) ? ( 2 + ( 4 * Math.random() ) ) : - ( 2 + ( 4 * Math.random() ) )
 	};
 }
 
@@ -104,6 +104,10 @@ function draw(){
 	// We could push the query parameter automatically with "window.history.pushState"
 	const shareLink = document.querySelector( 'a#share' );
 	shareLink.href = "?share=" + encodedValues;
+	// Allows to refresh the page, no matter where the website is hosted (dev,
+	// prod, new domain name, etc.)
+	const newLink = document.querySelector( 'a#new' );
+	newLink.href = window.location.pathname;
 }
 
 /**
