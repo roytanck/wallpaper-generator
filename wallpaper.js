@@ -23,7 +23,7 @@ function generateValues( width ){
 	// line segments (either few, or fluent lines (200))
 	const segments = ( Math.random() < 0.5 ) ? 1 + Math.floor( 9 * Math.random() ) : 200;
 	// wavelength
-	const wl = width / ( 5 + ( 10 * Math.random() ) );
+	const wl = width / ( 5 + ( 15 * Math.random() ) );
 
 	// other random values
 	return {
@@ -35,7 +35,7 @@ function generateValues( width ){
 		ampl: ( 0.1 * wl ) + ( 0.9 * wl ) * Math.random(),
 		offset: width * Math.random(),
 		offsetIncrement: width / 20 + ( width / 10 ) * Math.random(),
-		sat: 10 + ( 30 * Math.random() ),
+		sat: 15 + ( 35 * Math.random() ),
 		light: 15 + ( 45 * Math.random() ),
 		lightIncrement: ( Math.random() < 0.5 ) ? ( 2 + ( 4 * Math.random() ) ) : -( 2 + ( 4 * Math.random() ) )
 	};
